@@ -1,16 +1,28 @@
 <% layout("/layouts/boilerplate") %>
-<body>
+<div class="row" style="overflow: hidden; padding: 10px;">
     <h2>Listing Details:</h2>
-    <ul>
-        <li><%= listing.title %></li>
-        <li><%= listing.description %></li>
-        <li>&#8377; <%= listing.price.toLocaleString("en-IN") %> </li>
-        <li><%= listing.location %></li>
-        <li><%= listing.country %></li>
-    </ul>
-    <a href="/listing/<%= listing._id %>/edit">edit</a>
+    <div class="col-8 offset-2">
+    
+    <div class="card-img">
+          <% if(listing.image && listing.image.url) { %>
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 15rem; object-fit: cover;">
+          <% } else { %>
+            <img src="https://placehold.co/600x400?text=No+Image" class="card-img-top" alt="No image" style="height: 15rem; object-fit: cover;">
+          <% } %>
+     <h5 class="card-title"><b><%= listing.title %></b></h5><br>
+        <%= listing.description %> <br>
+        &#8377; <%= listing.price.toLocaleString("en-IN") %> <br>
+        <%= listing.location %> <br>
+        <%= listing.country %> <br>
+    
+     </div></div><br>
+    <div class="btns col-4 offset-2">
+        
+    <a href="/listing/<%= listing._id %>/edit"><div class="btn btn-outline-danger">edit</div></a>
     <br><br>
+    
     <form method="post" action="/listing/<%= listing._id %>?_method=delete" >
-        <button>delete this listing</button>
+      <button class="btn btn-danger">Delete</button>
     </form>
-</body>
+    </div>
+    </div>

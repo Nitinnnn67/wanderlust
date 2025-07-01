@@ -1,15 +1,27 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-   <br>
-   <!-- <form action="/listing/new" method="get">
-    <button >create new listings</button>
-   </form> -->
-    <h3>All Listings</h3>
-    <ul>
- <% for(listing of alllisting){%>
-   <li> <a href="/listing/<%= listing._id %>"><%= listing.title %></a></li>
-
- <% } %>
-    </ul>
-</body>
+<div class="container mt-3">
+  <h3 class="mb-4">All Listings</h3>
+  <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <% for (let listing of alllisting) { %>
+      <a href="/listing/<%= listing._id %>" class="listing-link">
+      <div class="col ">
+        <div class="card h-100">
+          <% if(listing.image && listing.image.url) { %>
+            <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 15rem; object-fit: cover;">
+          <% } else { %>
+            <img src="https://placehold.co/600x400?text=No+Image" class="card-img-top" alt="No image" style="height: 15rem; object-fit: cover;">
+          <% } %>
+          <div class="card-img-overlay">
+          <h5 class="card-title">Card title</h5>
+          </div>
+          <div class="card-body">
+            <p class="card-text"><b><%= listing.title %></b></p>
+            <p class="card-text">&#8377; <%= listing.price.toLocaleString("en-IN") %></p>
+          </div>
+        </div>
+      </div>
+      </a>
+    <% } %>
+  </div>
+</div>

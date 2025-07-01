@@ -1,5 +1,5 @@
 const mongoose= require("mongoose");
-const initdata=require("./data.js")
+const {initdata}=require("./data.js")
 const listing = require("../models/listing.js")
 
 const mongo_url ="mongodb://127.0.0.1:27017/wanderlust";

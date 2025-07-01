@@ -62,7 +62,7 @@ app.put("/listing/:id",async(req,res)=>{
 app.delete("/listing/:id",async(req,res)=>{
     let{id}=req.params;
     const listingdelete = await listing.findByIdAndDelete(id);
-    res.redirect("")
+    res.redirect("/listing")
 })
 
 
