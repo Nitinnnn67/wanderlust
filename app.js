@@ -5,6 +5,7 @@ const listing=require("./models/listing")
 const methodOverride = require("method-override")
 const path = require("path");
 const ejsMate=require("ejs-mate")
+const ExpressError = require("./expressError");  
 
 const mongo_url ="mongodb://127.0.0.1:27017/wanderlust";
 main().then((res)=>{
@@ -22,6 +23,27 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodOverride("_method"))
 app.engine("ejs",ejsMate)
 app.use(express.static(path.join(__dirname, "public")));
+// app.use((req,res,next)=>{
+//     console.log(req)
+//     next()
+// })
+app.use("/admin",(req,res,next)=>{
+   let {token}=req.query;
+   if(token==="eshin"){
+    next()}
+    throw new ExpressError(403,"Access for admin page is forbidden ")
+    
+})
+
+app.use((err, req, res, next) => {
+  let {status=500,message="something error"}=err;
+  res.status(status).send(message);
+  next(err);
+});
+
+app.get("/admin",(req,res)=>{
+    res.send("data")
+})
 
 app.get("/",(req,res)=>{
     res.send("startedd...")
@@ -80,7 +102,10 @@ console.log("save")
 res.send("workinggg.... ")
 });
 
-
+app.use((req,res,next)=>{
+res.status(404).send("404 not found")
+    next()
+})
 
 app.listen(8080,()=>{
     console.log("listening on port 8080");
