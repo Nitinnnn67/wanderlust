@@ -3,18 +3,20 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <form action="/listing/new" method="POST" class="mt-4">
+            <form action="/listing/new" method="POST" class="mt-4 needs-validation" novalidate>
                 <h2 class="text-center mb-4">Create New Listing</h2>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
+                            <label for="title" class="form-label" required>Title</label>
                             <input type="text" class="form-control" name="listing[title]" id="title" placeholder="Enter title" required>
+                            <div id="validationServer03Feedback" class="invalid-feedback">Please provide a valid title.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" name="listing[description]" id="description" rows="3" placeholder="Add description" required></textarea>
+                            <div id="validationServer03Feedback" class="invalid-feedback">Please provide a valid description.</div>
                         </div>
 
                         <div class="mb-3">
@@ -22,24 +24,27 @@
                             <div class="input-group">
                                 <span class="input-group-text">₹</span>
                                 <input type="number" class="form-control" name="listing[price]" id="price" placeholder="Add price" required>
+                                <div id="validationServer03Feedback" class="invalid-feedback">Please enter correct value.</div>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="image" class="form-label">Image URL</label>
                             <input type="url" class="form-control" name="listing[image][url]" id="image" placeholder="Add image URL/Link">
-                            <input type="hidden" name="listing[image][filename]" value="listingimage">
+
                         </div>
 
                         <div class="row">
                             <div class="mb-3 col-md-4">
                                 <label for="country" class="form-label">Country</label>
                                 <input type="text" class="form-control" name="listing[country]" id="country" placeholder="Enter country name" required>
+                                <div id="validationServer03Feedback" class="invalid-feedback">country name should be valid.</div>
                             </div>
 
                             <div class="mb-3 col-md-8">
                                 <label for="location" class="form-label">Location</label>
                                 <input type="text" class="form-control" name="listing[location]" id="location" placeholder="Enter location" required>
+                                <div id="validationServer03Feedback" class="invalid-feedback">Please provide a valid location.</div>
                             </div>
                         </div>
 

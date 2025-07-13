@@ -3,18 +3,20 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8 col-lg-6">
-            <form method="POST" action="/listing/<%= listing._id %>?_method=PUT" class="mt-4">
+            <form method="POST" action="/listing/<%= listing._id %>?_method=PUT" class="mt-4 needs-validation" novalidate>
                 <h2 class="text-center mb-4">Edit Listing</h2>
                 <div class="card shadow">
                     <div class="card-body">
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control" name="listing[title]" id="title" value="<%= listing.title %>" required>
+                             <div id="validationServer03Feedback" class="invalid-feedback">Please enter correct title.</div>
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
                             <textarea class="form-control" name="listing[description]" id="description" rows="3" required><%= listing.description %></textarea>
+                             <div id="validationServer03Feedback" class="invalid-feedback">Please enter correct description.</div>
                         </div>
 
                         <div class="mb-3">
@@ -22,6 +24,7 @@
                             <div class="input-group">
                                 <span class="input-group-text">₹</span>
                                 <input type="number" class="form-control" name="listing[price]" id="price" value="<%= listing.price %>" required>
+                                 <div id="validationServer03Feedback" class="invalid-feedback">Please enter correct value.</div>
                             </div>
                         </div>
 
@@ -35,11 +38,13 @@
                             <div class="mb-3 col-md-4">
                                 <label for="country" class="form-label">Country</label>
                                 <input type="text" class="form-control" name="listing[country]" id="country" value="<%= listing.country %>" required>
+                                 <div id="validationServer03Feedback" class="invalid-feedback">enter valid country.</div>
                             </div>
 
                             <div class="mb-3 col-md-8">
                                 <label for="location" class="form-label">Location</label>
                                 <input type="text" class="form-control" name="listing[location]" id="location" value="<%= listing.location %>" required>
+                                 <div id="validationServer03Feedback" class="invalid-feedback">Please enter correct location.</div>
                             </div>
                         </div>
 

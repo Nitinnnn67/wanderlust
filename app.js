@@ -5,7 +5,8 @@ const listing=require("./models/listing")
 const methodOverride = require("method-override")
 const path = require("path");
 const ejsMate=require("ejs-mate")
-const ExpressError = require("./expressError");  
+const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js")
 
 const mongo_url ="mongodb://127.0.0.1:27017/wanderlust";
 main().then((res)=>{
@@ -49,49 +50,55 @@ app.get("/",(req,res)=>{
     res.send("startedd...")
 })
 
-app.get("/listing",async (req,res)=>{
-    const alllisting = await listing.find({});
-    res.render("listings/index.ejs",{alllisting})
-})
+app.get("/listing", wrapAsync(async (req,res,next)=>{
+    if(!listing){
+        throw new ExpressError(400,"send valid data")
+    }
+     const alllisting = await listing.find({});
+    res.render("listings/index.ejs",{alllisting}) 
+}));
 
 app.get("/listing/new",(req,res)=>{
     res.render("listings/new.ejs");
 })
 
-app.get("/listing/:id",async (req,res)=>{
+app.get("/listing/:id",wrapAsync(async (req,res)=>{
     let{id}=req.params;
     const listingItem = await listing.findById(id);
     res.render("listings/show.ejs",{listing:listingItem})
-})
-
-app.post("/listing/new",async (req,res)=>{
+}))
+app.post("/listing/new", wrapAsync(async (req,res)=>{
     const newlisting = new listing(req.body.listing)
     await newlisting.save();
     res.redirect("/listing");    
-})
+}));;
 
-app.get("/listing/:id/edit",async(req,res)=>{
+app.get("/listing/:id/edit",wrapAsync(async(req,res)=>{
    let{id}=req.params;
     const listingdetails = await listing.findById(id);
     res.render("listings/edit.ejs",{listing:listingdetails})
-})
-app.put("/listing/:id",async(req,res)=>{
+}))
+app.put("/listing/:id",wrapAsync(async(req,res)=>{
     let{id}=req.params;
     await listing.findByIdAndUpdate(id,{...req.body.listing});
     res.redirect("/listing")
-})
+}))
 
-app.delete("/listing/:id",async(req,res)=>{
+app.delete("/listing/:id",wrapAsync(async(req,res)=>{
     let{id}=req.params;
     const listingdelete = await listing.findByIdAndDelete(id);
     res.redirect("/listing")
-})
+}))
 
 
-app.get("/testlisting",async (req,res)=>{
+app.get("/testlisting",wrapAsync(async (req,res)=>{
     const samplelisting=new listing({
     title:"ramayana",
     description:"about ram bhagwan stories",
+    image: {
+        url: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/960px-London_Skyline_%28125508655%29.jpeg",
+        filename: "listingimage"
+    },
     price:600,
     location:"ayodhya",
     country:"india"
@@ -100,11 +107,16 @@ app.get("/testlisting",async (req,res)=>{
 await samplelisting.save();
 console.log("save")
 res.send("workinggg.... ")
-});
+}));
 
 app.use((req,res,next)=>{
-res.status(404).send("404 not found")
-    next()
+next(new ExpressError(404,"page not found"))
+
+})
+app.use((err,req,res,next)=>{
+let {stausCode=500,message="something went wrong"}=err;
+res.render("listings/error.ejs",{stausCode,message})
+// res.status(stausCode).send(message);
 })
 
 app.listen(8080,()=>{

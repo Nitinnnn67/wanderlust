@@ -1,7 +1,8 @@
 <% layout("/layouts/boilerplate") %>
-<div class="row" style="overflow: hidden; padding: 10px;">
+
+<div class="row " style="overflow: hidden; padding: 10px;"  >
     <h2>Listing Details:</h2>
-    <div class="col-8 offset-2">
+    <div class="col-8 offset-2" >
     
     <div class="card-img">
           <% if(listing.image && listing.image.url) { %>
@@ -9,9 +10,14 @@
           <% } else { %>
             <img src="https://placehold.co/600x400?text=No+Image" class="card-img-top" alt="No image" style="height: 15rem; object-fit: cover;">
           <% } %>
+          
      <h5 class="card-title"><b><%= listing.title %></b></h5><br>
         <%= listing.description %> <br>
-        &#8377; <%= listing.price.toLocaleString("en-IN") %> <br>
+        <% if (typeof listing.price !== 'undefined' && listing.price !== null) { %>
+            &#8377; <%= listing.price.toLocaleString("en-IN") %>
+        <% } else { %>
+            Price not available
+        <% } %>
         <%= listing.location %> <br>
         <%= listing.country %> <br>
     

@@ -6,12 +6,18 @@ const listingschema= new schema({
         type:String,
     },
     description:String,
-    images:{
-        default:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/960px-London_Skyline_%28125508655%29.jpeg",
-     type:String,
-     set: (v) => 
-        v==="" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/960px-London_Skyline_%28125508655%29.jpeg" 
-        : v
+    image:{
+        url: {
+            type: String,
+            default: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/960px-London_Skyline_%28125508655%29.jpeg",
+            set: (v) => 
+                v === "" ? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/London_Skyline_%28125508655%29.jpeg/960px-London_Skyline_%28125508655%29.jpeg" 
+                : v
+        },
+        filename: {
+            type: String,
+            default: "listingimage"
+        }
     },
     price:Number,
     location:String,
