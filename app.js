@@ -95,10 +95,6 @@ app.use((req,res,next)=>{
 app.get("/admin",(req,res)=>{
     res.send("data")
 })
-app.get("/",(req,res)=>{
-    res.send("startedd...")
-})
-
 app.use("/listing",listingRoutes)
 app.use("/listing/:id/reviews", reviewsRoutes)
 app.use("/", userRoute)
