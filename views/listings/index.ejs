@@ -1,33 +1,266 @@
 <% layout("/layouts/boilerplate") %>
+<style>
+   /* Filters Container */
+   .filters-container {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 100;
+    padding: 0.5rem ;
+    border-bottom: 1px solid #e0e0e0;
+    margin-bottom:0.5rem;
+   }
+   
+   .filters {
+    display: flex;
+    overflow-x: auto;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+   }
+   
+   .filters::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+   }
+   
+   .filter {
+    flex: 0 0 auto;
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0.7;
+    border: 1px solid transparent;
+    min-width: 80px;
+   }
+   
+   .filter:hover {
+    opacity: 1;
+    background-color: #f7f7f7;
+   }
+   
+   .filter.active {
+    opacity: 1;
+    border-color: #222222;
+    background-color: #222222;
+    color: white;
+   }
+   
+   .filter i {
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+    display: block;
+   }
+   
+   .filter p {
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 500;
+   }
+   
+   /* Toggle Switch */
+   .toggle-container {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding-left: 2rem;
+    border-left: 1px solid #e0e0e0;
+    flex-shrink: 0;
+   }
+   
+   .form-switch {
+    margin: 0;
+   }
+   
+   .form-switch .form-check-input {
+    width: 3rem;
+    height: 1.5rem;
+    border-radius: 2rem;
+    background-color: #ddd;
+    border: none;
+    cursor: pointer;
+   }
+   
+   .form-switch .form-check-input:checked {
+    background-color: #222222;
+    border-color: #222222;
+   }
+   
+   .form-check-label {
+    font-size: 0.85rem;
+    color: #717171;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    white-space: nowrap;
+   }
+   
+   .taxinfo {
+    display: none;
+    color: #717171;
+    font-size: 0.8rem;
+   }
+   
+   /* Mobile Responsive */
+   @media (max-width: 768px) {
+    .filters {
+     padding: 0 0.5rem;
+     gap: 1rem;
+    }
+    
+    .filter {
+     min-width: 70px;
+     padding: 0.5rem 0.75rem;
+    }
+    
+    .filter i {
+     font-size: 1rem;
+    }
+    
+    .filter p {
+     font-size: 0.7rem;
+    }
+    
+    .toggle-container {
+     padding-left: 1rem;
+    }
+    
+    .form-check-label {
+     font-size: 0.75rem;
+    }
+   }
+   
+   @media (max-width: 576px) {
+    .filters-container {
+     padding: 0.75rem 0;
+    }
+    
+    .filters {
+     gap: 0.75rem;
+    }
+    
+    .filter {
+     min-width: 60px;
+     padding: 0.4rem 0.5rem;
+    }
+    
+    .toggle-container {
+     padding-left: 0.75rem;
+    }
+    
+    .form-check-label {
+     display: none; /* Hide label on very small screens */
+    }
+   }
+</style>
 
-<div class="container mt-3">
-  <h3 class="mb-4">All Listings</h3>
-  <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
-    <% for (let listing of alllisting) { %>
-      <a href="/listing/<%= listing._id %>" class="listing-link">
-      <div class="col ">
-        <div class="card h-100 listing-card">
-          <% if(listing.image && listing.image.url) { %>
-            <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 15rem; object-fit: cover;">
-          <% } else { %>
-            <img src="https://placehold.co/600x400?text=No+Image" class="card-img-top" alt="No image" style="height: 15rem; object-fit: cover;">
-          <% } %>
-          <div class="card-img-overlay">
-          <h5 class="card-title">Card title</h5>
-          </div>
-          <div class="card-body">
-    <p class="card-text"><b><%= listing.title %></b></p>
-    <p class="card-text">
-        <% if (typeof listing.price !== 'undefined' && listing.price !== null) { %>
-            &#8377; <%= listing.price.toLocaleString("en-IN") %>
-        <% } else { %>
-            Price not available
-        <% } %>
-    </p>
-</div>
+<div class="container-fluid">
+  <div class="filters-container">
+    <div class="filters">
+      <div class="filter" data-category="trending">
+        <i class="fa-solid fa-fire"></i>
+        <p>Trending</p>
+      </div>
+      <div class="filter" data-category="rooms">
+        <i class="fa-solid fa-bed"></i>
+        <p>Rooms</p>
+      </div>
+      <div class="filter" data-category="cities">
+        <i class="fa-solid fa-city"></i>
+        <p>Cities</p>
+      </div>
+      <div class="filter" data-category="mountains">
+        <i class="fa-solid fa-mountain"></i>
+        <p>Mountains</p>
+      </div>
+      <div class="filter" data-category="castles">
+        <i class="fa-solid fa-chess-rook"></i>
+        <p>Castles</p>
+      </div>
+      <div class="filter" data-category="pools">
+        <i class="fa-solid fa-person-swimming"></i>
+        <p>Amazing Pools</p>
+      </div>
+      <div class="filter" data-category="camping">
+        <i class="fa-solid fa-campground"></i>
+        <p>Camping</p>
+      </div>
+      <div class="filter" data-category="farms">
+        <i class="fa-solid fa-cow"></i>
+        <p>Farms</p>
+      </div>
+      
+      <div class="toggle-container">
+        <div class="form-check form-switch">
+          <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+          <label class="form-check-label" for="switchCheckDefault">Display total after taxes</label>
         </div>
       </div>
-      </a>
-    <% } %>
+    </div>
+  </div>
+  
+  <div class="container">
+    <div class="row row-cols-1 row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-4">
+      <% for (let listing of alllisting) { %>
+        <a href="/listing/<%= listing._id %>" class="listing-link">
+        <div class="col">
+          <div class="card h-100 listing-card">
+            <% if(listing.image && listing.image.url) { %>
+              <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>" style="height: 15rem; object-fit: cover;">
+            <% } else { %>
+              <img src="https://placehold.co/600x400?text=No+Image" class="card-img-top" alt="No image" style="height: 15rem; object-fit: cover;">
+            <% } %>
+            <div class="card-img-overlay">
+              <h5 class="card-title">Card title</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text"><b><%= listing.title %></b></p>
+              <p class="card-text">
+                <% if (typeof listing.price !== 'undefined' && listing.price !== null) { %>
+                  &#8377; <%= listing.price.toLocaleString("en-IN") %> &nbsp;&nbsp;
+                  <i class="taxinfo">+18% GST</i>
+                <% } else { %>
+                  Price not available
+                <% } %>
+              </p>
+            </div>
+          </div>
+        </div>
+        </a>
+      <% } %>
+    </div>
   </div>
 </div>
+
+<script>
+  // Filter functionality
+  const filters = document.querySelectorAll('.filter');
+  filters.forEach(filter => {
+    filter.addEventListener('click', () => {
+      // Remove active class from all filters
+      filters.forEach(f => f.classList.remove('active'));
+      // Add active class to clicked filter
+      filter.classList.add('active');
+      
+      const category = filter.getAttribute('data-category');
+      console.log('Selected category:', category);
+    });
+  });
+
+  // Tax toggle functionality
+  const taxSwitch = document.getElementById("switchCheckDefault");
+  const taxinfo = document.getElementsByClassName("taxinfo");
+  
+  taxSwitch.addEventListener("click", () => {
+    console.log("Tax toggle clicked");
+    
+    for(let info of taxinfo) {
+      if(info.style.display === "none" || info.style.display === "") {
+        info.style.display = "inline";
+      } else {
+        info.style.display = "none";
+      }
+    }
+  });
+</script>

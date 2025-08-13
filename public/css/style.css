@@ -161,3 +161,48 @@ body{
     gap: 10px;
     align-items: center;
 }
+
+/* Star Rating Styles */
+.star-rating {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    gap: 0.2rem;
+    margin-bottom: 1rem;
+}
+
+.star-rating input {
+    display: none;
+}
+
+.star-rating label {
+    font-size: 1.8rem;
+    color: #ddd;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.star-rating input:checked ~ label,
+.star-rating label:hover,
+.star-rating label:hover ~ label {
+    color: #ffc107;
+}
+
+.star-rating label:before {
+    content: "★";
+}
+
+/* Display Stars for Reviews */
+.review-stars {
+    display: inline-flex;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.review-stars .star {
+    color: #ffc107;
+}
+
+.review-stars .empty-star {
+    color: #ddd;
+}

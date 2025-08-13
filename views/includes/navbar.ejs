@@ -6,11 +6,154 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link active" aria-current="page" href="/listing">Home</a>
-        <a class="nav-link" href="/listing">listings</a>
-        <a class="nav-link" href="/listing/new">create new listing</a>
-       
+        <a class="nav-link" href="/listing">Explore</a>
+      </div>
+      
+      <!-- Simple Search Bar -->
+      <div class="mx-auto   ">
+        <form class="modern-search-form" role="search">
+          <div class="search-container">
+            <div class="search-section">
+              <input type="text" placeholder="Search destinations, hotels, experiences..." class="search-input">
+            </div>
+            <button type="submit" class="search-btn">
+              <i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/listing/new">Airbnb your home</a>
+        <% if (!currUser) { %>
+        <a class="nav-link active" aria-current="page" href="/signup"><b>sign up</b></a>
+        <a class="nav-link" href="/login"><b>log in</b></a>
+        <% } %>
+        <% if(currUser) { %>
+        <a class="nav-link " href="/logout"><b>log out</b></a>
+        <% } %>
       </div>
     </div>
   </div>
 </nav>
+
+<style>
+.modern-search-form {
+  min-width: 320px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #dddddd;
+  border-radius: 25px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+  transition: box-shadow 0.2s ease;
+  overflow: hidden;
+  height: 44px;
+}
+
+.search-container:hover {
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.search-section {
+  flex: 1;
+  padding: 12px 16px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: #222222;
+  width: 100%;
+  padding: 0;
+}
+
+.search-input::placeholder {
+  color: #b0b0b0;
+  font-weight: 400;
+}
+
+.search-btn {
+  background: linear-gradient(to right, #e61e4d 0%, #e31c5f 50%, #d70466 100%);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin: 6px;
+  color: white;
+  cursor: pointer;
+  transition: transform 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-btn:hover {
+  transform: scale(1.04);
+}
+
+.search-btn i {
+  font-size: 14px;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .modern-search-form {
+    min-width: 280px;
+  }
+  
+  .search-container {
+    height: 40px;
+  }
+  
+  .search-section {
+    padding: 10px 14px;
+  }
+  
+  .search-input {
+    font-size: 13px;
+  }
+  
+  .search-btn {
+    width: 28px;
+    height: 28px;
+    margin: 6px;
+  }
+  
+  .search-btn i {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 576px) {
+  .modern-search-form {
+    min-width: 250px;
+  }
+  
+  .search-container {
+    height: 38px;
+  }
+  
+  .search-section {
+    padding: 8px 12px;
+  }
+  
+  .search-input {
+    font-size: 12px;
+  }
+  
+  .search-btn {
+    width: 26px;
+    height: 26px;
+    margin: 5px;
+  }
+}
+</style>
